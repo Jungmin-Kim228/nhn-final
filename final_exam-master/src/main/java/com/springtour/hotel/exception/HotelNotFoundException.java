@@ -1,6 +1,6 @@
 package com.springtour.hotel.exception;
 
-public class HotelNotFoundException extends RuntimeException {
+public class HotelNotFoundException extends NotFoundException {
 
     private static final String ERROR = "호텔을 찾을 수 없습니다.";
 

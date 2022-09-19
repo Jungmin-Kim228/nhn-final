@@ -1,9 +1,10 @@
 package com.springtour.hotel.service;
 
-import com.springtour.hotel.controller.RoomResponse;
+import com.springtour.hotel.domain.dto.RoomResponse;
 import com.springtour.hotel.domain.Hotel;
 import com.springtour.hotel.domain.Room;
 import com.springtour.hotel.domain.dto.RoomCreateRequest;
+import com.springtour.hotel.exception.HotelNotFoundException;
 import com.springtour.hotel.repository.hotel.HotelRepository;
 import com.springtour.hotel.repository.room.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class RoomService {
     }
 
     public String createRoom(Long hotelId, RoomCreateRequest roomCreateRequest) {
-        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
+        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(HotelNotFoundException::new);
         Room room = new Room(hotel, roomCreateRequest);
 
         roomRepository.save(room);

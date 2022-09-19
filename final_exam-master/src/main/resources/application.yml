@@ -9,6 +9,10 @@ spring:
       max-total: 10
 
   jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

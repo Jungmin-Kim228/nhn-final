@@ -1,4 +1,4 @@
-package com.springtour.hotel.controller;
+package com.springtour.hotel.domain.dto;
 
 import com.springtour.hotel.domain.Room;
 import lombok.Getter;
