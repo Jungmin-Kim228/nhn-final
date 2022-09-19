@@ -3,7 +3,9 @@ package com.springtour.hotel.controller.advice;
 import com.springtour.hotel.exception.AlreadyBookedException;
 import com.springtour.hotel.exception.AlreadyBookedThreeTimeException;
 import com.springtour.hotel.exception.Error;
+import com.springtour.hotel.exception.HotelNotFoundException;
 import com.springtour.hotel.exception.NotFoundException;
+import com.springtour.hotel.exception.RoomNotFoundException;
 import com.springtour.hotel.exception.UserIdNotValidException;
 import com.springtour.hotel.exception.UserIdNullException;
 import lombok.extern.slf4j.Slf4j;
@@ -51,14 +53,14 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler({
-            NotFoundException.class
+            HotelNotFoundException.class, RoomNotFoundException.class, NotFoundException.class
     })
     public ResponseEntity<Error> NotFoundExceptionHandle(NotFoundException e) {
 
         log.error(e.toString());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .contentType(MediaType.APPLICATION_JSON)
-                             .body(new Error("찾을 수 없습니다."));
+                             .body(new Error(e.getMessage()));
     }
 
     @ExceptionHandler({

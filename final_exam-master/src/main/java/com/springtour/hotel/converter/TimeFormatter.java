@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 public interface TimeFormatter {
 
-    String convert(LocalDateTime LocalDateTime);
+    static String convert(LocalDateTime localDateTime) {
+        return String.valueOf(localDateTime);
+    }
 
 }

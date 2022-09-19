@@ -4,6 +4,7 @@ import com.springtour.hotel.converter.ViewTypeConverter;
 import com.springtour.hotel.domain.dto.RoomCreateRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -47,6 +48,7 @@ public class Room {
     private ViewType viewType;
 
     @Column(name = "created_at")
+    @DateTimeFormat(pattern = "${date.format}")
     private LocalDateTime createdAt;
 
     public Room(Hotel hotel, RoomCreateRequest roomCreateRequest) {

@@ -1,5 +1,6 @@
 package com.springtour.hotel.domain.dto;
 
+import com.springtour.hotel.converter.TimeFormatter;
 import com.springtour.hotel.domain.Room;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,8 +24,8 @@ public class RoomResponse {
 
     private String viewType;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
+    @DateTimeFormat(pattern = "${date.format}")
+    private String createdAt;
 
     public RoomResponse(Room room) {
         this.id = String.valueOf(room.getId());
@@ -33,7 +34,7 @@ public class RoomResponse {
         this.floor = room.getFloor();
         this.hasBathtub = room.isBathtubFlag();
         this.viewType = room.getViewType().getParameter();
-        this.createdAt = room.getCreatedAt();
+        this.createdAt = TimeFormatter.convert(room.getCreatedAt());
     }
 
 }
