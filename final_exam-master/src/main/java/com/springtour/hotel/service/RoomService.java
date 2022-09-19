@@ -1,7 +1,10 @@
 package com.springtour.hotel.service;
 
 import com.springtour.hotel.controller.RoomResponse;
+import com.springtour.hotel.domain.Hotel;
 import com.springtour.hotel.domain.Room;
+import com.springtour.hotel.domain.dto.RoomCreateRequest;
+import com.springtour.hotel.repository.hotel.HotelRepository;
 import com.springtour.hotel.repository.room.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomService {
 
+    private final HotelRepository hotelRepository;
     private final RoomRepository roomRepository;
 
     // RoomResponse 클래스는 Room Entity 객체를 클라이언트에게 응답하기 위한 DTO 입니다.
@@ -31,6 +35,15 @@ public class RoomService {
         }
 
         return roomResponseList;
+    }
+
+    public String createRoom(Long hotelId, RoomCreateRequest roomCreateRequest) {
+        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
+        Room room = new Room(hotel, roomCreateRequest);
+
+        roomRepository.save(room);
+
+        return String.valueOf(room.getId());
     }
 
 }

@@ -3,6 +3,7 @@ package com.springtour.hotel.controller;
 import com.springtour.hotel.domain.Room;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ public class RoomResponse {
 
     private String viewType;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
     public RoomResponse(Room room) {
