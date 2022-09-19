@@ -44,7 +44,7 @@ public class GlobalControllerAdvice {
         log.error(e.toString());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                              .contentType(MediaType.APPLICATION_JSON)
-                             .body(new Error(e.getMessage()));
+                             .body(new Error("시스템에서 에러가 발생했습니다."));
     }
 
 }
