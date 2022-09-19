@@ -1,10 +1,17 @@
 package com.springtour.hotel.service;
 
+import com.springtour.hotel.domain.Book;
+import com.springtour.hotel.domain.dto.RoomBookRequest;
 import com.springtour.hotel.domain.dto.RoomResponse;
 import com.springtour.hotel.domain.Hotel;
 import com.springtour.hotel.domain.Room;
 import com.springtour.hotel.domain.dto.RoomCreateRequest;
+import com.springtour.hotel.exception.AlreadyBookedException;
+import com.springtour.hotel.exception.AlreadyBookedThreeTimeException;
 import com.springtour.hotel.exception.HotelNotFoundException;
+import com.springtour.hotel.exception.RoomNotFoundException;
+import com.springtour.hotel.exception.UserIdNotValidException;
+import com.springtour.hotel.repository.book.BookRepository;
 import com.springtour.hotel.repository.hotel.HotelRepository;
 import com.springtour.hotel.repository.room.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.springtour.hotel.controller.UserAuthzValidator.isValid;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -21,6 +30,9 @@ public class RoomService {
 
     private final HotelRepository hotelRepository;
     private final RoomRepository roomRepository;
+    private final BookRepository bookRepository;
+
+    private static final Long THREE_TIME = 3L;
 
     // RoomResponse 클래스는 Room Entity 객체를 클라이언트에게 응답하기 위한 DTO 입니다.
     // 객실 정보 조회 API 명세서의 Response 양식을 보시고 적절한 형태로 RoomResponse 클래스를 만들어주세요.
@@ -45,6 +57,20 @@ public class RoomService {
         roomRepository.save(room);
 
         return String.valueOf(room.getId());
+    }
+
+    public String bookRoom(Long hotelId, Long roomId, RoomBookRequest roomBookRequest) {
+        if (isValid(roomBookRequest.getUserId())) {
+            throw new UserIdNotValidException("예약이 불가능한 사용자입니다.");
+        }
+
+        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(HotelNotFoundException::new);
+        Room room = roomRepository.findById(roomId).orElseThrow(RoomNotFoundException::new);
+        Book book = new Book(room, roomBookRequest);
+
+        bookRepository.save(book);
+
+        return hotel.getName() + "의 " + room.getName() + " 예약 완료";
     }
 
 }

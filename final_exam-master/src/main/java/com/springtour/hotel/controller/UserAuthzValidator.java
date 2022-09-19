@@ -1,5 +1,7 @@
 package com.springtour.hotel.controller;
 
+import com.springtour.hotel.exception.UserIdNullException;
+
 import java.util.Objects;
 
 public class UserAuthzValidator {
@@ -8,8 +10,9 @@ public class UserAuthzValidator {
 
     public static Boolean isValid(Long userId) {
         if (Objects.isNull(userId))
-            return false;
+            throw new UserIdNullException();
 
         return VALID_USER_ID.longValue() == userId.longValue();
     }
+
 }

@@ -39,7 +39,7 @@ public class Room {
 
     private Integer floor;
 
-    @Column(name = "bathtub_flag")
+    @Column(name = "bathtub_flag", columnDefinition = "tinyint(1) default 1")
     private boolean bathtubFlag;
 
     @Convert(converter = ViewTypeConverter.class)

@@ -1,5 +1,6 @@
 package com.springtour.hotel.controller;
 
+import com.springtour.hotel.domain.dto.RoomBookRequest;
 import com.springtour.hotel.domain.dto.RoomCreateRequest;
 import com.springtour.hotel.domain.dto.RoomResponse;
 import com.springtour.hotel.service.RoomService;
@@ -42,6 +43,17 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.OK)
                              .contentType(MediaType.APPLICATION_JSON)
                              .body(roomResponseList);
+    }
+
+    @PostMapping("/{hotel-id}/rooms/{room-id}")
+    public ResponseEntity<String> bookRoom(@PathVariable("hotel-id") Long hotelId,
+                                           @PathVariable("room-id") Long roomId,
+                                           @Valid @RequestBody RoomBookRequest roomBookRequest) {
+        String roomIdResponse = roomService.bookRoom(hotelId, roomId, roomBookRequest);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                             .contentType(MediaType.APPLICATION_JSON)
+                             .body(roomIdResponse);
     }
 
 }
