@@ -31,7 +31,7 @@ public class RoomController {
 
         String hotelIdResponse = roomService.createRoom(hotelId, roomCreateRequest);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.CREATED)
                              .contentType(MediaType.APPLICATION_JSON)
                              .body(hotelIdResponse);
     }
@@ -46,12 +46,11 @@ public class RoomController {
     }
 
     @PostMapping("/{hotel-id}/rooms/{room-id}")
-    public ResponseEntity<String> bookRoom(@PathVariable("hotel-id") Long hotelId,
-                                           @PathVariable("room-id") Long roomId,
+    public ResponseEntity<String> bookRoom(@PathVariable("room-id") Long roomId,
                                            @Valid @RequestBody RoomBookRequest roomBookRequest) {
-        String roomIdResponse = roomService.bookRoom(hotelId, roomId, roomBookRequest);
+        String roomIdResponse = roomService.bookRoom(roomId, roomBookRequest);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.CREATED)
                              .contentType(MediaType.APPLICATION_JSON)
                              .body(roomIdResponse);
     }

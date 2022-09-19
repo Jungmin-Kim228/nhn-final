@@ -60,16 +60,15 @@ public class RoomService {
     }
 
     @Transactional
-    public String bookRoom(Long hotelId, Long roomId, RoomBookRequest roomBookRequest) {
+    public String bookRoom(Long roomId, RoomBookRequest roomBookRequest) {
         validateBook(roomId, roomBookRequest);
 
-        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(HotelNotFoundException::new);
         Room room = roomRepository.findById(roomId).orElseThrow(RoomNotFoundException::new);
         Book book = new Book(room, roomBookRequest);
 
         bookRepository.save(book);
 
-        return hotel.getName() + "의 " + room.getName() + " 예약 완료";
+        return room.getName() + " booked";
     }
 
     private void validateBook(Long roomId, RoomBookRequest roomBookRequest) {
