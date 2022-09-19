@@ -1,6 +1,9 @@
 package com.springtour.hotel.domain;
 
+import com.springtour.hotel.converter.ViewTypeConverter;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -30,9 +33,11 @@ public class Room {
     @Column(name = "bathtub_flag")
     private boolean bathtubFlag;
 
+    @Convert(converter = ViewTypeConverter.class)
     @Column(name = "view_type")
     private ViewType viewType;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
 }

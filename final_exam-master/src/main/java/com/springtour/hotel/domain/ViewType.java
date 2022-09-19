@@ -32,4 +32,5 @@ public enum ViewType {
     public static ViewType fromParameter(String parameter) {
         return parameterMap.get(parameter);
     }
+
 }
