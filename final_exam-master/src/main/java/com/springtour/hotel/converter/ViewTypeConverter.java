@@ -14,8 +14,7 @@ public class ViewTypeConverter implements AttributeConverter<ViewType, Integer> 
     }
 
     @Override
-    public ViewType convertToEntityAttribute(Integer dbValue) {
-        return ViewType.fromDbValue(dbValue);
+    public ViewType convertToEntityAttribute(Integer integer) {
+        return ViewType.fromDbValue(integer);
     }
-
 }

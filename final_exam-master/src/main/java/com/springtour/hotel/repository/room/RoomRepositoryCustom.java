@@ -8,6 +8,4 @@ import java.util.List;
 @NoRepositoryBean
 public interface RoomRepositoryCustom {
 
-    List<RoomResponse> findByHotelId(Long hotelId);
-
 }

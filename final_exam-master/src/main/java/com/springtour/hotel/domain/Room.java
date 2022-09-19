@@ -1,6 +1,7 @@
 package com.springtour.hotel.domain;
 
 import com.springtour.hotel.converter.ViewTypeConverter;
+import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 
 @Table(name = "Rooms")
 @Entity
+@Getter
 public class Room {
 
     @Id
