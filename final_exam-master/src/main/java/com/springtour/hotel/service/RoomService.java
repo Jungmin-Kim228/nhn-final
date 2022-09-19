@@ -24,7 +24,6 @@ import java.util.List;
 import static com.springtour.hotel.controller.UserAuthzValidator.isValid;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class RoomService {
 
@@ -50,6 +49,7 @@ public class RoomService {
         return roomResponseList;
     }
 
+    @Transactional
     public String createRoom(Long hotelId, RoomCreateRequest roomCreateRequest) {
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(HotelNotFoundException::new);
         Room room = new Room(hotel, roomCreateRequest);
@@ -59,10 +59,9 @@ public class RoomService {
         return String.valueOf(room.getId());
     }
 
+    @Transactional
     public String bookRoom(Long hotelId, Long roomId, RoomBookRequest roomBookRequest) {
-        if (isValid(roomBookRequest.getUserId())) {
-            throw new UserIdNotValidException("예약이 불가능한 사용자입니다.");
-        }
+        validateBook(roomId, roomBookRequest);
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(HotelNotFoundException::new);
         Room room = roomRepository.findById(roomId).orElseThrow(RoomNotFoundException::new);
@@ -71,6 +70,18 @@ public class RoomService {
         bookRepository.save(book);
 
         return hotel.getName() + "의 " + room.getName() + " 예약 완료";
+    }
+
+    private void validateBook(Long roomId, RoomBookRequest roomBookRequest) {
+        if (!isValid(roomBookRequest.getUserId())) {
+            throw new UserIdNotValidException("예약이 불가능한 사용자입니다.");
+        }
+        if (bookRepository.isAlreadyBooked(roomId, roomBookRequest.getCheckIn(), roomBookRequest.getCheckOut())) {
+            throw new AlreadyBookedException("이미 예약완료된 객실입니다.");
+        }
+        if (bookRepository.isAlreadyBookedThreeTimes(roomBookRequest.getUserId()) >= THREE_TIME) {
+            throw new AlreadyBookedThreeTimeException();
+        }
     }
 
 }

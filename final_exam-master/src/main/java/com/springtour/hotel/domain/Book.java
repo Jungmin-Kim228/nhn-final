@@ -28,15 +28,22 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
+    @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "booked_at")
+    private LocalDate bookedAt;
+
+    @Column(name = "check_in")
     private LocalDate checkIn;
 
+    @Column(name = "check_out")
     private LocalDate checkOut;
 
     public Book(Room room, RoomBookRequest roomBookRequest){
         this.room = room;
         this.userId = roomBookRequest.getUserId();
+        this.bookedAt = LocalDate.now();
         this.checkIn = roomBookRequest.getCheckIn();
         this.checkOut = roomBookRequest.getCheckOut();
     }

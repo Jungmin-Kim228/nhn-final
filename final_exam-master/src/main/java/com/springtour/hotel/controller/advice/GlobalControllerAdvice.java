@@ -1,5 +1,7 @@
 package com.springtour.hotel.controller.advice;
 
+import com.springtour.hotel.exception.AlreadyBookedException;
+import com.springtour.hotel.exception.AlreadyBookedThreeTimeException;
 import com.springtour.hotel.exception.Error;
 import com.springtour.hotel.exception.NotFoundException;
 import com.springtour.hotel.exception.UserIdNotValidException;
@@ -19,9 +21,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler({
-            UserIdNullException.class, UserIdNotValidException.class
+            UserIdNullException.class, UserIdNotValidException.class,
     })
     public ResponseEntity<Error> userValidationExceptionHandle(UserIdNotValidException e) {
+        log.error(e.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .contentType(MediaType.APPLICATION_JSON)
+                             .body(new Error(e.getMessage()));
+    }
+
+    @ExceptionHandler({
+            AlreadyBookedException.class, AlreadyBookedThreeTimeException.class
+    })
+    public ResponseEntity<Error> bookValidationExceptionHandle(AlreadyBookedException e) {
         log.error(e.toString());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .contentType(MediaType.APPLICATION_JSON)

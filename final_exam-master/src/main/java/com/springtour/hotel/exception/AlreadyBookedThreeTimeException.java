@@ -1,6 +1,6 @@
 package com.springtour.hotel.exception;
 
-public class AlreadyBookedThreeTimeException extends RuntimeException {
+public class AlreadyBookedThreeTimeException extends AlreadyBookedException {
 
     private static final String ERROR = "이미 금일 3개의 객실을 예약하였습니다.";
 
