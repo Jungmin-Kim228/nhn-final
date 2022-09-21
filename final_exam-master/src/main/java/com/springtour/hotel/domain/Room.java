@@ -48,7 +48,6 @@ public class Room {
     private ViewType viewType;
 
     @Column(name = "created_at")
-    @DateTimeFormat(pattern = "${date.format}")
     private LocalDateTime createdAt;
 
     public Room(Hotel hotel, RoomCreateRequest roomCreateRequest) {

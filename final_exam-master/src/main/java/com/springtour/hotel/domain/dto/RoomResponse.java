@@ -1,12 +1,8 @@
 package com.springtour.hotel.domain.dto;
 
-import com.springtour.hotel.converter.TimeFormatter;
 import com.springtour.hotel.domain.Room;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -24,7 +20,6 @@ public class RoomResponse {
 
     private String viewType;
 
-    @DateTimeFormat(pattern = "${date.format}")
     private String createdAt;
 
     public RoomResponse(Room room) {
@@ -34,7 +29,11 @@ public class RoomResponse {
         this.floor = room.getFloor();
         this.hasBathtub = room.isBathtubFlag();
         this.viewType = room.getViewType().getParameter();
-        this.createdAt = TimeFormatter.convert(room.getCreatedAt());
+        this.createdAt = String.valueOf(room.getCreatedAt());
+    }
+
+    public void changeTimeFormat(String createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.springtour.hotel.service;
 
+import com.springtour.hotel.converter.TimeFormatter;
 import com.springtour.hotel.domain.Book;
 import com.springtour.hotel.domain.dto.RoomBookRequest;
 import com.springtour.hotel.domain.dto.RoomResponse;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class RoomService {
     private final HotelRepository hotelRepository;
     private final RoomRepository roomRepository;
     private final BookRepository bookRepository;
+    private final TimeFormatter timeFormatter;
 
     private static final Long THREE_TIME = 3L;
 
@@ -43,7 +46,9 @@ public class RoomService {
         List<Room> roomList = roomRepository.findRoomsByHotel_Id(hotelId);
 
         for (Room room : roomList) {
-            roomResponseList.add(new RoomResponse(room));
+            RoomResponse roomResponse = new RoomResponse(room);
+            roomResponse.changeTimeFormat(timeFormatter.convert(LocalDateTime.parse(roomResponse.getCreatedAt())));
+            roomResponseList.add(roomResponse);
         }
 
         return roomResponseList;
